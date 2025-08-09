@@ -103,20 +103,193 @@ paths:
         500:
           description: 'Server Error'
 
+# [GET] groups
+  /groups:
+    get:
+      tags:
+      - groups
+      summary: Find All Groups
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+# [POST] groups
+    post:
+      tags:
+      - groups
+      summary: Add Group
+      parameters:
+      - name: body
+        in: body
+        description: user Data
+        required: true
+        schema:
+          $ref: '#/definitions/groups'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [GET] groups/id
+  /groups/{id}:
+    get:
+      tags:
+      - groups
+      summary: Find Group By Id
+      parameters:
+      - name: id
+        in: path
+        description: Group Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+
+# [PUT] groups/id
+    put:
+      tags:
+      - groups
+      summary: Update Group By Id
+      parameters:
+      - name: id
+        in: path
+        description: Group Id
+        required: true
+        type: integer
+      - name: body
+        in: body
+        description: Group Data
+        required: true
+        schema:
+          $ref: '#/definitions/groups'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [DELETE] groups/id
+    delete:
+      tags:
+      - groups
+      summary: Delete Group By Id
+      parameters:
+      - name: id
+        in: path
+        description: Group Id
+        required: true
+        type: integer
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [PUT] groups/join/id
+  /groups/join/{id}:
+    put:
+      tags:
+      - groups
+      summary: Add User to Group
+      parameters:
+      - name: id
+        in: path
+        description: Group Id
+        required: true
+        type: integer
+      - name: userId
+        in: body
+        description: User Id
+        required: true
+        schema:
+          $ref: '#/definitions/users'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+# [PUT] groups/leave/id
+  /groups/leave/{id}:
+    put:
+      tags:
+      - groups
+      summary: Remove User from Group
+      parameters:
+      - name: id
+        in: path
+        description: Group Id
+        required: true
+        type: integer
+      - name: userId
+        in: body
+        description: User Id
+        required: true
+        schema:
+          $ref: '#/definitions/users'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
   users:
     type: object
     required:
+        - id
         - email
         - password
     properties:
+      id:
+        type: number
+        description: user Id
       email:
         type: string
         description: user Email
       password:
         type: string
         description: user Password
+  groups:
+    type: object
+    required:
+        - id
+        - name
+    properties:
+      id:
+        type: number
+        description: Id of the group
+      name:
+        type: string
+        description: Name of the group
 
 schemes:
  - https
